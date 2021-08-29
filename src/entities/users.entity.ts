@@ -3,16 +3,17 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  PrimaryGeneratedColumn,
+  PrimaryGeneratedColumn, Unique,
   UpdateDateColumn
 } from 'typeorm'
 
 @Entity()
+@Unique(['email'])
 export class Users extends BaseEntity {
   @PrimaryGeneratedColumn({type: 'bigint'})
   id: number
 
-  @Column({unique: true})
+  @Column()
   email: string
 
   @Column()
