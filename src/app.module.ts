@@ -24,6 +24,7 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
         username: configService.get('database.user'),
         password: configService.get('database.password'),
         database: configService.get('database.name'),
+        schema: configService.get('database.schema'),
         entities: [__dirname + '/**/*.entity.{js,ts}'],
         namingStrategy: new SnakeNamingStrategy(),
         synchronize: true,
