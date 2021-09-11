@@ -1,35 +1,35 @@
-import {IsNumber, IsString} from 'class-validator'
+import { IsNumber, IsString } from 'class-validator';
 
 export class CreateUserDTO {
   @IsString()
-  email: string
+  email: string;
 
   @IsString()
-  password: string
+  password: string;
 
   @IsString()
-  name: string
+  name: string;
 
   @IsString()
-  point?: string
+  point?: string;
 
   @IsString()
-  phone?: string
+  phone?: string;
 }
 
 export class CreateUserDTO2 {
   @IsString()
-  email: string
+  email: string;
 
   @IsString()
-  password: string
+  password: string;
 
   @IsString()
-  name: string
+  name: string;
 
-  @IsString({ each: true})
-  point: string
+  @IsString({ each: true })
+  point: string;
 
-  @IsString({ each: true})
-  phone: string
+  @IsString({ each: true })
+  phone: string;
 }
