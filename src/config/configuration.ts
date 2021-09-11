@@ -1,11 +1,14 @@
-import 'dotenv/config';
+const get = (key: string) => {
+  return process.env[key];
+};
+
 export default () => ({
   database: {
-    host: process.env.DATABASE_HOST || '',
-    user: process.env.DATABASE_USER || '',
-    name: process.env.DATABASE_NAME || '',
-    password: process.env.DATABASE_PASSWORD || '',
-    port: process.env.DATABASE_PORT || '',
-    schema: process.env.DATABASE_SCHEMA || '',
+    host: get('DATABASE_HOST') ?? '',
+    user: get('DATABASE_USER') ?? '',
+    name: get('DATABASE_NAME') ?? '',
+    password: get('DATABASE_PASSWORD') ?? '',
+    port: get('DATABASE_PORT') ?? '',
+    schema: get('DATABASE_SCHEMA') ?? '',
   },
 });
