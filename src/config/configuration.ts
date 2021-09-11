@@ -6,5 +6,6 @@ export default () => ({
     name: process.env.DATABASE_NAME || '',
     password: process.env.DATABASE_PASSWORD || '',
     port: process.env.DATABASE_PORT || '',
+    schema: process.env.DATABASE_SCHEMA || '',
   },
 });
