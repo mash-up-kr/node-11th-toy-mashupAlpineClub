@@ -1,20 +1,20 @@
 import {
-  BaseEntity,
   Column,
-  CreateDateColumn,
   Entity,
+  Index,
+  OneToMany,
   PrimaryGeneratedColumn,
-  Unique,
-  UpdateDateColumn,
 } from 'typeorm';
+import { CreatedUpdatedTime } from './common/created.updated.time.entity';
+import { Stores } from './stores.entity';
 
 @Entity()
-@Unique(['email'])
-export class Users extends BaseEntity {
+export class Users extends CreatedUpdatedTime {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id: number;
 
   @Column()
+  @Index({ unique: true })
   email: string;
 
   @Column()
@@ -23,17 +23,14 @@ export class Users extends BaseEntity {
   @Column()
   name: string;
 
-  @Column({ nullable: true })
-  point: string;
+  @Column({ type: 'integer', default: 0 })
+  point: number;
 
-  @Column({ nullable: true })
+  @Column()
   phone: string;
 
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
+  @OneToMany(() => Stores, (store) => store.user)
+  stores: Stores;
 
   static async createUser(user: Users) {
     return this.createQueryBuilder()
