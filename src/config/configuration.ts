@@ -11,4 +11,5 @@ export default () => ({
     port: get('DATABASE_PORT') ?? '',
     schema: get('DATABASE_SCHEMA') ?? '',
   },
+  port: +get('PORT') ?? 3000,
 });

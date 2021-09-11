@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -12,7 +13,10 @@ async function bootstrap() {
       transform: true, // 요청에서 넘어온 자료들의 형변환
     }),
   );
-  await app.listen(3000);
-  console.log('🚀 Application launched at http://127.0.0.1:3000');
+
+  const config = app.get<ConfigService>(ConfigService);
+  const port = config.get('port');
+  await app.listen(port);
+  console.log(`🚀 Application launched at http://127.0.0.1:${port}`);
 }
 bootstrap();
