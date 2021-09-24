@@ -17,19 +17,10 @@ export class CreateUserDTO {
   phone?: string;
 }
 
-export class CreateUserDTO2 {
-  @IsString()
+export class LoginUserDTO {
+  @IsEmail()
   email: string;
 
   @IsString()
   password: string;
-
-  @IsString()
-  name: string;
-
-  @IsString({ each: true })
-  point: string;
-
-  @IsString({ each: true })
-  phone: string;
 }

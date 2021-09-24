@@ -1,7 +1,8 @@
 import {HttpException, HttpStatus, Injectable} from '@nestjs/common'
 import { Users } from '../entities/users.entity';
+import {hashPassword} from '../util/cipher'
 import {CreateUserDTO} from './users.dto'
-import * as Bcrypt from 'bcryptjs'
+
 import {randomInt} from 'crypto'
 import {RandomGenerator} from 'typeorm/util/RandomGenerator'
 import {UserStatus} from './users.type'
@@ -14,8 +15,7 @@ export class UsersService {
     await this.isAvailableEmail(lowerCaseEmail)
 
     // encode password
-    const salt: string = await Bcrypt.genSalt(10)
-    const encryptedPassword: string = await Bcrypt.hash(password, salt)
+    const encryptedPassword = await hashPassword(password)
     const token = randomInt(16).toString()
 
     const userInfo: any = {

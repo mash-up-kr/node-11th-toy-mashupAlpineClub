@@ -6,6 +6,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import configuration from './config/configuration';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+import { AuthService } from './auth/auth.service';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -31,8 +33,9 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
       }),
     }),
     UsersModule,
+    AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AuthService],
 })
 export class AppModule {}
