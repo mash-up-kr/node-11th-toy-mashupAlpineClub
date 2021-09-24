@@ -1,26 +1,50 @@
-import { Injectable } from '@nestjs/common';
+import {HttpException, HttpStatus, Injectable} from '@nestjs/common'
 import { Users } from '../entities/users.entity';
+import {CreateUserDTO} from './users.dto'
+import * as Bcrypt from 'bcryptjs'
+import {randomInt} from 'crypto'
+import {RandomGenerator} from 'typeorm/util/RandomGenerator'
+import {UserStatus} from './users.type'
 
 @Injectable()
 export class UsersService {
-  async create(createUserDto: any) {
-    const data = await Users.createUser(createUserDto);
+  async create(createUserDto: CreateUserDTO) {
+    const { email, password, name } = createUserDto
+    const lowerCaseEmail = email.toLowerCase()
+    await this.isAvailableEmail(lowerCaseEmail)
+
+    // encode password
+    const salt: string = await Bcrypt.genSalt(10)
+    const encryptedPassword: string = await Bcrypt.hash(password, salt)
+    const token = randomInt(16).toString()
+
+    const userInfo: any = {
+      'email': lowerCaseEmail,
+      'password': encryptedPassword,
+      'name': name,
+      'status': UserStatus.UNCONFIRMED,
+      'token': token
+    }
+
+    const data = await Users.createUser(userInfo);
+
+    // 이메일을 보내야하는가?
+    // 보내야한다면 이메일 양식 템플릿 작성
     return data;
   }
 
-  findAll() {
-    return `This action returns all users`;
-  }
+  private async isAvailableEmail(email: string) {
+    const user = await Users.findByEmail(email)
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+    if (user) throw new HttpException({
+      status: HttpStatus.SERVICE_UNAVAILABLE,
+      error: 'already exits email',
+    }, HttpStatus.SERVICE_UNAVAILABLE)
+
+    return true
   }
 
   update(id: number, updateUserDto: any) {
     return `This action updates a #${id} user`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`;
   }
 }

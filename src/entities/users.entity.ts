@@ -23,20 +23,24 @@ export class Users extends CreatedUpdatedTime {
   @Column()
   name: string;
 
-  @Column({ type: 'integer', default: 0 })
-  point: number;
+  @Column()
+  status: string;
 
   @Column()
-  phone: string;
+  token: string;
 
-  @OneToMany(() => Stores, (store) => store.user)
-  stores: Stores;
+  @Column({nullable: true})
+  confirmed_at: Date;
 
-  static async createUser(user: Users) {
+  static async createUser(user: any) {
     return this.createQueryBuilder()
       .insert()
       .into(Users)
       .values(user)
       .execute();
+  }
+
+  static async findByEmail(email: string) {
+    return this.findOne(email)
   }
 }
