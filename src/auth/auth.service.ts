@@ -23,10 +23,15 @@ export class AuthService {
 
   async login(data: LoginUserDTO) {
     const user = await Users.findByEmail(data.email);
-    if (user) throw new HttpException({
+    if (!user) throw new HttpException({
       status: HttpStatus.NOT_FOUND,
-      error: 'already exits email',
+      error: 'not found email',
     }, HttpStatus.NOT_FOUND)
+
+    if (!user.status) throw new HttpException({
+      status: HttpStatus.UNAUTHORIZED,
+      error: 'invalid user status',
+    }, HttpStatus.UNAUTHORIZED)
 
     const encryptedPassword = await hashPassword(data.password)
     await isHashValid(data.password, encryptedPassword)
