@@ -6,6 +6,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import configuration from './config/configuration';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+import { StoresModule } from './stores/stores.module';
+import { MenusModule } from './menus/menus.module';
+import { ReviewsModule } from './reviews/reviews.module';
 
 @Module({
   imports: [
@@ -31,6 +34,9 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
       }),
     }),
     UsersModule,
+    StoresModule,
+    MenusModule,
+    ReviewsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
